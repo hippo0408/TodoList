@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TODOリスト一覧画面</title>
+<link th:href="@{/css/todo.css}" rel="stylesheet" type="text/css">
+<link href="https://use.fontawesome.com/releases/v6.2.0/css/all.css" rel="stylesheet">
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}" defer></script>
+</head>
+<body>
+  <main>
+    <div class="header">
+	  <h1>
+	    <i class="fa-solid fa-check"></i> <span class="header-title">ToDoLIST</span>
+	  </h1>
+	</div>
+
+	<div class="todo-wrapper">
+	  <nav>
+	    <ul class="tab">
+		  <li class="current tab-menu">未完了タスク一覧</li>
+		  <li class="tab-menu">完了済タスク一覧</li>
+		</ul>
+      </nav>
+    <div class="tab-target">
+	  <p class="count" th:object="${todoList}" th:text="${todoListCount}+'件未完了'"></p>
+        <div th:each="list:${todoList}">
+		  <div class="todo-box">
+		    <form id="form" th:method="post" th:action="@{/todo-done}" th:object="${list}">
+			  <div class="check-box">
+	            <input type="hidden" name="id" th:value="*{id}">
+	            <input type="checkbox" class="check-box" id="btn" onclick="testClick(this);">
+	            <label for="btn"></label>
+			  </div>
+			</form>
+	        <div class="todo-text">
+		      <p class="title" th:text="${list.title}"></p>
+			  <p class="detail" th:text="${list.detail}"></p>
+			  <p class="deadline" th:text="'期限：'+${list.deadline}"></p>
+			  <p class="type" th:text="${list.todoType.type}"></p>
+			</div>
+            <form th:method="post" th:action="@{/todo-detail}"  th:object="${list}">
+			  <input type="hidden" name="id" th:value="*{id}">
+			    <button type="submit">
+				  <i class="fa-solid fa-pen-to-square"></i>
+				</button>
+			</form>
+		  </div>
+		</div>
+    </div>
+
+	<div class="tab-target">
+	  <p class="count" th:object="${todoDoneList}" th:text="${todoDoneListCount}+'件完了'"></p>
+        <div th:each="doneList:${todoDoneList}">
+		  <div class="todo-box">
+		    <div class="check-box">
+			  <form id="form2" th:method="post" th:action="@{/todo-back}" th:object="${doneList}">
+			    <input type="hidden" name="id" th:value="*{id}">
+			    <input type="checkbox" class="check-box" checked id="btn2" onclick="testClick(this);">
+			      <label for="btn2"></label>
+				</form>
+			</div>
+			<div class="todo-text">
+			  <p class="done-text title" th:text="${doneList.title}"></p>
+			  <p class="detail" th:text="${doneList.detail}"></p>
+			  <p class="deadline" th:text="'期限：'+${doneList.deadline}"></p>
+			  <p class="type" th:text="${doneList.todoType.type}"></p>
+			  <p class="donedate" th:text="'完了日時：'+${doneList.doneDate}"></p>
+			</div>
+			  <form th:method="post" th:action="@{/todo-detail}" th:object="${doneList}">
+			    <input type="hidden" name="id" th:value="*{id}">
+				  <button type="submit"><i class="fa-solid fa-pen-to-square"></i>
+				  </button>
+			  </form>
+	    </div>
+	</div>
+	  <form method="post" th:action="@{/delete-all}">
+	    <input type="submit" class="delete-all delete-action" value="一括削除">
+	  </form>
+	</div>
+	  <a href="todo-register"><i class="fa-solid fa-circle-plus"></i></a>
+    </div>
+  </main>
+	<script type="text/javascript" th:src="@{/js/todo.js}" defer="defer"></script>
+</body>
+</html>

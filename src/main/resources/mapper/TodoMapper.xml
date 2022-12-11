@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.TodoMapper">
+
+  <select id="getTodoList" resultMap="todo" resultType="com.example.demo.entity.Todo">
+    SELECT
+      id,
+      title,
+      detail,
+      deadline,
+      type
+    FROM
+      todo
+    INNER JOIN
+      todo_type
+    ON
+      todo.type_id=todo_type.type_id
+    WHERE
+      delete_flg='0'
+    ORDER BY 
+      id ASC
+  </select>
+  
+   <select id="getTodoDoneList" resultMap="todo" resultType="com.example.demo.entity.Todo">
+    SELECT
+      id,
+      title,
+      detail,
+      deadline,
+      type,
+      comment,
+      done_date
+    FROM
+      todo
+    INNER JOIN
+      todo_type
+    ON
+      todo.type_id=todo_type.type_id
+    WHERE
+      delete_flg='1'
+    ORDER BY 
+      id ASC
+  </select>
+  
+  <insert id="insertTodoInfo" parameterType="com.example.demo.entity.Todo">
+    INSERT INTO todo(
+      type_id,
+      title,
+      detail,
+      deadline
+    )VALUES(
+      #{typeId},
+      #{title},
+      #{detail},
+      #{deadline}
+    )
+  </insert>
+  
+  <select id="getTodoInfo" resultMap="todo"	 resultType="com.example.demo.entity.Todo">
+    SELECT
+      id,
+      type,
+      title,
+      detail,
+      deadline,
+      done_Date
+    FROM
+      todo
+    INNER JOIN
+      todo_type
+    ON
+      todo.type_id=todo_type.type_id
+    WHERE
+      id=#{id}
+  </select>
+ 
+  <update id="todoDoneInfo" parameterType="com.example.demo.entity.Todo">
+    UPDATE
+      todo
+    SET
+      delete_flg="1",
+      done_date=CURRENT_TIMESTAMP()	
+    WHERE
+      id=#{id}
+  </update>
+  
+  <update id="returnTodoInfo" parameterType="com.example.demo.entity.Todo">
+    UPDATE
+      todo
+    SET
+      delete_flg="0",
+      done_date=null
+    WHERE
+      id=#{id}
+  </update>
+  
+  <update id="updateTodoInfo" parameterType="com.example.demo.entity.Todo">
+    UPDATE
+      todo
+    SET
+      type_id=#{typeId},
+      title=#{title},
+      detail=#{detail},
+      deadline=#{deadline}
+    WHERE
+      id=#{id}
+  </update>
+  
+  <delete id="deleteTodo" parameterType="com.example.demo.entity.Todo">
+    DELETE FROM
+      todo
+    WHERE
+      id=#{id}
+  </delete>
+  
+  <delete id="deleteAll" parameterType="com.example.demo.entity.Todo">
+    DELETE FROM
+      todo
+    WHERE
+      delete_flg="1";
+  </delete>
+  
+   <resultMap id="todo" type="com.example.demo.entity.Todo">
+     <id property="id" column="id" />
+     <result property="typeId" column="type_id" />
+     <result property="title" column="title" />
+     <result property="detail" column="detail" />
+     <result property="deadline" column="deadline" />
+     <result property="deleteFlg" column="delete_flg" />
+     <result property="doneDate" column="done_Date" />
+     <association property="todoType" resultMap="todoType"/>
+   </resultMap>
+   <resultMap id="todoType" type="com.example.demo.entity.TodoType">
+     <id property="typeId" column="type_id" />
+	 <result property="type" column="type" />
+	 <result property="comment" column="comment" />
+   </resultMap>
+</mapper>
