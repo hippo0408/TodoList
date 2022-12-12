@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+@media(max-width:780px){
+
+body {
+  width: 100%;
+}
+
+main {
+  width: 100%;
+}
+
+.tab {
+  width: 80%;
+}
+
+.fa-circle-plus {
+  position: fixed;
+  bottom: 2%;
+  right: 2%;
+}
+
+.fa-circle-check {
+  margin-left: 350px;
+}
+
+
+}
