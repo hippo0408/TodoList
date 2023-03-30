@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.7-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war'
 }
 
 group = 'com.example'
@@ -20,6 +21,11 @@ repositories {
 	maven { url 'https://repo.spring.io/snapshot' }
 }
 
+war {
+    enabled = true
+    archiveFileName = 'TodoList.war'
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -32,8 +38,10 @@ dependencies {
 	implementation 'org.webjars:bootstrap:4.6.0'
     implementation 'org.webjars:jquery:3.5.1'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+

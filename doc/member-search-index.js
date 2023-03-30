@@ -1,0 +1,1 @@
+memberSearchIndex = [{"l":"configure(SpringApplicationBuilder)","h":"","u":"configure(org.springframework.boot.builder.SpringApplicationBuilder)"},{"l":"getValidator()","h":"","u":""},{"l":"main(String[])","h":"","u":"main(java.lang.String[])"},{"l":"TodoListApplication()","h":"","u":"%3Cinit%3E()"},{"l":"validator()","h":"","u":""}]
